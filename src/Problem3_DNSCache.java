@@ -13,22 +13,32 @@ class DNSEntry {
 public class Problem3_DNSCache {
 
     static HashMap<String, DNSEntry> cache = new HashMap<>();
+    static int hits = 0, misses = 0;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println(resolve("google.com"));
         System.out.println(resolve("google.com"));
+        Thread.sleep(6000);
+        System.out.println(resolve("google.com"));
+        stats();
     }
 
     public static String resolve(String domain) {
         if (cache.containsKey(domain)) {
-            DNSEntry entry = cache.get(domain);
-            if (System.currentTimeMillis() < entry.expiry) {
-                return "Cache HIT: " + entry.ip;
+            DNSEntry e = cache.get(domain);
+            if (System.currentTimeMillis() < e.expiry) {
+                hits++;
+                return "HIT: " + e.ip;
             }
         }
-
-        String ip = "172.217.0.1"; // fake DNS
+        misses++;
+        String ip = "172.217.0." + new Random().nextInt(255);
         cache.put(domain, new DNSEntry(ip, 5));
-        return "Cache MISS: " + ip;
+        return "MISS: " + ip;
+    }
+
+    public static void stats() {
+        int total = hits + misses;
+        System.out.println("Hit Rate: " + (hits * 100.0 / total) + "%");
     }
 }

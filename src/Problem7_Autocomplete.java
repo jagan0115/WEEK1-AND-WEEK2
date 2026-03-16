@@ -20,6 +20,8 @@ public class Problem7_Autocomplete {
                 res.add(key);
             }
         }
+
+        res.sort((a, b) -> map.get(b) - map.get(a));
         return res;
     }
 }

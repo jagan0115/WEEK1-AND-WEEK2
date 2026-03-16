@@ -11,6 +11,8 @@ public class Problem2_InventoryManager {
         purchaseItem("IPHONE", 101);
         purchaseItem("IPHONE", 102);
         purchaseItem("IPHONE", 103);
+
+        System.out.println("Waiting List: " + waitingList);
     }
 
     public static synchronized void purchaseItem(String product, int userId) {
@@ -18,10 +20,10 @@ public class Problem2_InventoryManager {
 
         if (available > 0) {
             stock.put(product, available - 1);
-            System.out.println("Success for user " + userId);
+            System.out.println("Success: " + userId + " Remaining: " + (available - 1));
         } else {
             waitingList.add(userId);
-            System.out.println("Added to waiting list: " + userId);
+            System.out.println("Added to Waiting List: " + userId);
         }
     }
 }

@@ -9,8 +9,16 @@ public class Problem1_UsernameChecker {
         users.put("john_doe", 1);
         users.put("admin", 2);
 
-        System.out.println(checkAvailability("john_doe"));
-        System.out.println(suggestAlternatives("john_doe"));
+        String username = "john_doe";
+
+        if (checkAvailability(username)) {
+            System.out.println("Available");
+        } else {
+            System.out.println("Not Available");
+            System.out.println("Suggestions: " + suggestAlternatives(username));
+        }
+
+        System.out.println("Most Attempted: " + getMostAttempted());
     }
 
     public static boolean checkAvailability(String username) {
@@ -20,9 +28,17 @@ public class Problem1_UsernameChecker {
 
     public static List<String> suggestAlternatives(String username) {
         List<String> list = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 5; i++) {
             list.add(username + i);
+            list.add(username + "_" + i);
         }
         return list;
+    }
+
+    public static String getMostAttempted() {
+        return attempts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("None");
     }
 }

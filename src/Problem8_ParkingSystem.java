@@ -10,11 +10,16 @@ public class Problem8_ParkingSystem {
     public static void park(String plate) {
         int hash = Math.abs(plate.hashCode()) % parking.length;
 
+        int start = hash;
         while (parking[hash] != null) {
             hash = (hash + 1) % parking.length;
+            if (hash == start) {
+                System.out.println("Full");
+                return;
+            }
         }
 
         parking[hash] = plate;
-        System.out.println("Parked at: " + hash);
+        System.out.println("Parked at " + hash);
     }
 }
